@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wired & Wondering — Tram-Anh Ngoc Huynh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fafaf8;
+    --fg: #1a1a1a;
+    --fg-soft: #555;
+    --yellow: #f5c842;
+    --yellow-light: #fff9e0;
+    --yellow-mid: #fde97a;
+    --border: #e0e0d8;
+    --accent-line: #f5c842;
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'DM Sans', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--fg);
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  .zh body { font-family: 'Noto Sans SC', var(--sans); }
+
+  /* ──────── LANG SWITCHER ──────── */
+  .lang-bar {
+    position: fixed;
+    top: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    gap: 0;
+    background: var(--fg);
+    border-bottom-left-radius: 10px;
+    overflow: hidden;
+  }
+  .lang-bar button {
+    background: none;
+    border: none;
+    color: #aaa;
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: .08em;
+    padding: 8px 14px;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .lang-bar button.active {
+    background: var(--yellow);
+    color: var(--fg);
+  }
+  .lang-bar button:hover:not(.active) { color: #fff; }
+
+  /* ──────── NAV ──────── */
+  nav {
+    position: sticky;
+    top: 0;
+    background: rgba(250,250,248,.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    height: 60px;
+  }
+  .nav-logo {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: .02em;
+    color: var(--fg);
+    text-decoration: none;
+  }
+  .nav-logo span {
+    display: inline-block;
+    width: 8px; height: 8px;
+    background: var(--yellow);
+    border-radius: 50%;
+    margin-left: 4px;
+    vertical-align: middle;
+    margin-bottom: 2px;
+  }
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    color: var(--fg-soft);
+    text-decoration: none;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--fg); }
+
+  /* ──────── HERO ──────── */
+  #hero {
+    min-height: calc(100vh - 60px);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 80px 48px 60px;
+    gap: 60px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .hero-text {}
+  .hero-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    background: var(--yellow-light);
+    border: 1px solid var(--yellow);
+    color: #8a7000;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp .6s .1s forwards;
+  }
+  .hero-name {
+    font-family: var(--serif);
+    font-size: clamp(38px, 5vw, 58px);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -.01em;
+    opacity: 0;
+    animation: fadeUp .6s .2s forwards;
+  }
+  .hero-name em {
+    font-style: italic;
+    color: var(--fg-soft);
+    font-weight: 400;
+  }
+  .hero-name .zh-name {
+    display: block;
+    font-size: .55em;
+    color: var(--fg-soft);
+    margin-top: 6px;
+    font-style: normal;
+  }
+  .hero-sub {
+    font-size: 15px;
+    color: var(--fg-soft);
+    margin-top: 20px;
+    max-width: 440px;
+    line-height: 1.75;
+    opacity: 0;
+    animation: fadeUp .6s .35s forwards;
+  }
+  .hero-sub strong { color: var(--fg); font-weight: 500; }
+  .hero-cta {
+    display: flex;
+    gap: 14px;
+    margin-top: 36px;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp .6s .45s forwards;
+  }
+  .btn {
+    display: inline-block;
+    padding: 11px 26px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: .04em;
+    text-decoration: none;
+    transition: all .2s;
+    cursor: pointer;
+    border: none;
+    font-family: var(--sans);
+  }
+  .btn-primary {
+    background: var(--fg);
+    color: var(--bg);
+  }
+  .btn-primary:hover { background: #333; }
+  .btn-secondary {
+    background: transparent;
+    color: var(--fg);
+    border: 1.5px solid var(--border);
+  }
+  .btn-secondary:hover { border-color: var(--fg); }
+
+  .hero-image {
+    opacity: 0;
+    animation: fadeIn .8s .3s forwards;
+    position: relative;
+  }
+  .photo-frame {
+    width: 340px;
+    height: 420px;
+    border-radius: 160px 160px 120px 120px;
+    background: var(--yellow-light);
+    border: 2px solid var(--yellow-mid);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    margin: 0 auto;
+  }
+  .photo-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .photo-placeholder {
+    text-align: center;
+    color: #bba;
+    font-size: 13px;
+    padding: 20px;
+  }
+  .photo-placeholder .icon { font-size: 40px; margin-bottom: 8px; display: block; }
+  .deco-dot {
+    position: absolute;
+    width: 14px; height: 14px;
+    background: var(--yellow);
+    border-radius: 50%;
+  }
+  .deco-dot-1 { top: 20px; right: 20px; }
+  .deco-dot-2 { bottom: 60px; left: -10px; width: 20px; height: 20px; background: var(--yellow-mid); }
+  .deco-line {
+    position: absolute;
+    bottom: -20px;
+    right: 20px;
+    width: 80px;
+    height: 2px;
+    background: var(--yellow);
+  }
+
+  /* ──────── SECTION COMMON ──────── */
+  .section {
+    padding: 90px 48px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .section-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .section-label {
+    font-size: 11px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: #a07800;
+    font-weight: 600;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-label::after {
+    content: '';
+    display: inline-block;
+    width: 28px;
+    height: 1.5px;
+    background: var(--yellow);
+  }
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(28px, 3.5vw, 42px);
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+  .section-intro {
+    color: var(--fg-soft);
+    font-size: 15px;
+    max-width: 580px;
+    margin-bottom: 52px;
+    line-height: 1.8;
+  }
+
+  /* ──────── ABOUT ──────── */
+  #about .about-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+  .about-body { font-size: 15px; color: var(--fg-soft); line-height: 1.9; }
+  .about-body p { margin-bottom: 16px; }
+  .about-body strong { color: var(--fg); font-weight: 500; }
+  .about-sidebar {}
+  .info-card {
+    background: var(--yellow-light);
+    border: 1px solid var(--yellow-mid);
+    border-radius: 16px;
+    padding: 28px 30px;
+    margin-bottom: 20px;
+  }
+  .info-card h4 {
+    font-size: 11px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: #8a7000;
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+  .info-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 12px;
+    font-size: 14px;
+    color: var(--fg-soft);
+  }
+  .info-item .dot {
+    width: 6px; height: 6px;
+    background: var(--yellow);
+    border-radius: 50%;
+    margin-top: 7px;
+    flex-shrink: 0;
+  }
+
+  /* ──────── RESEARCH ──────── */
+  #research .research-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+  }
+  .research-card {
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 30px;
+    transition: all .25s;
+    position: relative;
+    overflow: hidden;
+    background: #fff;
+  }
+  .research-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--yellow);
+    transform: scaleY(0);
+    transition: transform .25s;
+    transform-origin: bottom;
+  }
+  .research-card:hover { box-shadow: 0 8px 30px rgba(0,0,0,.07); transform: translateY(-3px); }
+  .research-card:hover::before { transform: scaleY(1); }
+  .rc-tag {
+    font-size: 10px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    background: var(--yellow-light);
+    color: #7a6000;
+    padding: 4px 10px;
+    border-radius: 20px;
+    display: inline-block;
+    margin-bottom: 16px;
+    font-weight: 600;
+    border: 1px solid var(--yellow-mid);
+  }
+  .rc-title {
+    font-family: var(--serif);
+    font-size: 19px;
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: 10px;
+  }
+  .rc-desc {
+    font-size: 13.5px;
+    color: var(--fg-soft);
+    line-height: 1.7;
+    margin-bottom: 18px;
+  }
+  .rc-status {
+    font-size: 12px;
+    font-weight: 500;
+    color: #aaa;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .rc-status .dot-status {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #ccc;
+  }
+  .rc-status.ongoing .dot-status { background: #5cb85c; }
+  .rc-status.completed .dot-status { background: #f5c842; }
+
+  /* ──────── PROJECTS / ACHIEVEMENTS ──────── */
+  #projects .proj-list { display: flex; flex-direction: column; gap: 24px; }
+  .proj-item {
+    display: grid;
+    grid-template-columns: 56px 80px 1fr auto;
+    gap: 20px;
+    align-items: center;
+    padding: 24px 30px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: #fff;
+    transition: all .2s;
+  }
+  .proj-item:hover { box-shadow: 0 6px 24px rgba(0,0,0,.06); border-color: var(--yellow-mid); }
+  .proj-avatar {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    background: var(--yellow-light);
+    border: 1.5px dashed var(--yellow-mid);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+    overflow: hidden;
+    color: #ccc;
+  }
+  .proj-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; }
+  .proj-year {
+    font-family: var(--serif);
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--yellow-mid);
+    text-align: center;
+    line-height: 1;
+  }
+  .proj-year small { display: block; font-size: 11px; color: #bbb; font-family: var(--sans); font-weight: 400; letter-spacing: .06em; margin-top: 2px; }
+  .proj-body {}
+  .proj-title { font-weight: 500; font-size: 15px; margin-bottom: 4px; }
+  .proj-org { font-size: 12.5px; color: var(--fg-soft); letter-spacing: .02em; }
+  .proj-badge {
+    background: var(--yellow-light);
+    color: #7a6000;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 20px;
+    white-space: nowrap;
+    border: 1px solid var(--yellow-mid);
+    text-align: center;
+  }
+
+  /* ──────── SKILLS ──────── */
+  #skills .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+  }
+  .skill-group {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 26px 28px;
+  }
+  .skill-group h4 {
+    font-size: 11px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: #a07800;
+    font-weight: 600;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .skill-tag {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    font-size: 12.5px;
+    padding: 5px 13px;
+    border-radius: 20px;
+    color: var(--fg-soft);
+    transition: all .2s;
+  }
+  .skill-tag:hover { border-color: var(--yellow); background: var(--yellow-light); color: var(--fg); }
+  .skill-tag.highlight { background: var(--yellow-light); border-color: var(--yellow-mid); color: var(--fg); }
+
+  /* ──────── CONTACT ──────── */
+  #contact {
+    background: var(--fg);
+    padding: 80px 48px;
+    color: var(--bg);
+  }
+  #contact .inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+  #contact .section-label { color: var(--yellow); }
+  #contact .section-label::after { background: var(--yellow); }
+  #contact .section-title { color: var(--bg); }
+  #contact .section-intro { color: #aaa; margin-bottom: 30px; }
+  .contact-links { display: flex; flex-direction: column; gap: 14px; }
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: #ccc;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color .2s;
+  }
+  .contact-link:hover { color: var(--yellow); }
+  .contact-link .icon-box {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    background: rgba(255,255,255,.07);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+    transition: background .2s;
+  }
+  .contact-link:hover .icon-box { background: var(--yellow); }
+  .contact-quote {
+    font-family: var(--serif);
+    font-size: clamp(24px, 3vw, 36px);
+    font-style: italic;
+    line-height: 1.4;
+    color: #eee;
+  }
+  .contact-quote span { color: var(--yellow); }
+
+  /* ──────── FOOTER ──────── */
+  footer {
+    text-align: center;
+    padding: 28px;
+    font-size: 12px;
+    color: #bbb;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ──────── ANIMATIONS ──────── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(22px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* ──────── LANGUAGE CONTENT ──────── */
+  [data-lang] { display: none; }
+  .lang-en [data-lang="en"],
+  .lang-vi [data-lang="vi"],
+  .lang-zh [data-lang="zh"] { display: block; }
+  span[data-lang] { display: none; }
+  .lang-en span[data-lang="en"],
+  .lang-vi span[data-lang="vi"],
+  .lang-zh span[data-lang="zh"] { display: inline; }
+
+  /* ──────── RESPONSIVE ──────── */
+  @media (max-width: 768px) {
+    #hero { grid-template-columns: 1fr; padding: 40px 24px 60px; text-align: center; }
+    .hero-image { order: -1; }
+    .photo-frame { width: 220px; height: 280px; }
+    .hero-cta { justify-content: center; }
+    nav { padding: 0 24px; }
+    .nav-links { gap: 18px; }
+    .section { padding: 60px 24px; }
+    #about .about-grid { grid-template-columns: 1fr; }
+    #contact .inner { grid-template-columns: 1fr; }
+    .proj-item { grid-template-columns: 48px 60px 1fr; }
+    .proj-badge { grid-column: 3; }
+  }
+</style>
+</head>
+<body class="lang-en">
+
+<!-- LANG SWITCHER -->
+<div class="lang-bar">
+  <button onclick="setLang('en')" class="active" id="btn-en">EN</button>
+  <button onclick="setLang('vi')" id="btn-vi">VI</button>
+  <button onclick="setLang('zh')" id="btn-zh">中文</button>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">Wired & Wondering<span></span></a>
+  <ul class="nav-links">
+    <li><a href="#about">
+      <span data-lang="en">About</span>
+      <span data-lang="vi">Về tôi</span>
+      <span data-lang="zh">关于我</span>
+    </a></li>
+    <li><a href="#research">
+      <span data-lang="en">Research</span>
+      <span data-lang="vi">Nghiên cứu</span>
+      <span data-lang="zh">研究</span>
+    </a></li>
+    <li><a href="#projects">
+      <span data-lang="en">Projects</span>
+      <span data-lang="vi">Dự án</span>
+      <span data-lang="zh">项目</span>
+    </a></li>
+    <li><a href="#skills">
+      <span data-lang="en">Skills</span>
+      <span data-lang="vi">Kỹ năng</span>
+      <span data-lang="zh">技能</span>
+    </a></li>
+    <li><a href="#contact">
+      <span data-lang="en">Contact</span>
+      <span data-lang="vi">Liên hệ</span>
+      <span data-lang="zh">联系</span>
+    </a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-text">
+    <div class="hero-tag">
+      <span data-lang="en">Clinical & Counseling Psychology · CBT · Neuroscience</span>
+      <span data-lang="vi">Tâm lý học lâm sàng · CBT · Khoa học thần kinh</span>
+      <span data-lang="zh">临床与咨询心理学 · CBT · 神经科学</span>
+    </div>
+    <h1 class="hero-name">
+      <span data-lang="en">Tram-Anh Ngoc Huynh</span>
+      <span data-lang="vi">Huỳnh Ngọc Trâm Anh</span>
+      <span data-lang="zh">黄馨宁</span>
+    </h1>
+    <p class="hero-sub">
+      <span data-lang="en">
+        Master's student in <strong>Applied Psychology</strong> at Southwest University (China), specializing in <strong>Clinical & Counseling Psychology</strong>. Bridging evidence-based therapy with computational thinking — from neural circuits to human connection.
+      </span>
+      <span data-lang="vi">
+        Nghiên cứu sinh thạc sĩ <strong>Tâm lý học Ứng dụng</strong> tại Đại học Tây Nam (Trung Quốc), chuyên ngành <strong>Tâm lý học Lâm sàng & Tư vấn</strong>. Kết nối liệu pháp dựa trên bằng chứng với tư duy tính toán — từ mạch thần kinh đến kết nối người người.
+      </span>
+      <span data-lang="zh">
+        西南大学<strong>应用心理学</strong>研究生，方向为<strong>临床与咨询心理学</strong>。致力于将循证治疗与计算思维相融合——从神经回路到人际联结。
+      </span>
+    </p>
+    <div class="hero-cta">
+      <a href="#research" class="btn btn-primary">
+        <span data-lang="en">See My Research</span>
+        <span data-lang="vi">Xem nghiên cứu</span>
+        <span data-lang="zh">查看研究</span>
+      </a>
+      <a href="#contact" class="btn btn-secondary">
+        <span data-lang="en">Get in Touch</span>
+        <span data-lang="vi">Liên hệ</span>
+        <span data-lang="zh">联系我</span>
+      </a>
+    </div>
+  </div>
+  <div class="hero-image">
+    <div class="photo-frame">
+      <!-- REPLACE src="" WITH YOUR PHOTO PATH, e.g. src="photo.jpg" -->
+      <div class="photo-placeholder">
+        <span class="icon">📷</span>
+        <div data-lang="en">Your photo here<br><small>Replace with &lt;img src="your-photo.jpg"&gt;</small></div>
+        <div data-lang="vi">Ảnh của bạn<br><small>Thay bằng &lt;img src="anh.jpg"&gt;</small></div>
+        <div data-lang="zh">您的照片<br><small>替换为 &lt;img src="photo.jpg"&gt;</small></div>
+      </div>
+    </div>
+    <div class="deco-dot deco-dot-1"></div>
+    <div class="deco-dot deco-dot-2"></div>
+    <div class="deco-line"></div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ABOUT -->
+<section id="about" class="section">
+  <div class="section-label">
+    <span data-lang="en">About Me</span>
+    <span data-lang="vi">Về tôi</span>
+    <span data-lang="zh">关于我</span>
+  </div>
+  <h2 class="section-title">
+    <span data-lang="en">Curious by design,<br>rigorous by training.</span>
+    <span data-lang="vi">Tò mò trong tư duy,<br>nghiêm túc trong học thuật.</span>
+    <span data-lang="zh">好奇驱动探索，<br>严谨铸就研究。</span>
+  </h2>
+
+  <div class="about-grid">
+    <div class="about-body">
+      <div data-lang="en">
+        <p>I'm a Vietnamese researcher currently pursuing a Master's degree in <strong>Applied Psychology (Clinical & Counseling)</strong> at Southwest University, China. My journey started in <strong>Electrical-Electronic Engineering</strong>, where I developed strong analytical and computational skills — tools I now bring to psychological research and practice.</p>
+        <p>My primary focus is <strong>Cognitive Behavioral Therapy (CBT)</strong> and its mechanisms of change. I'm equally fascinated by <strong>neuroscience</strong> — how the brain shapes cognition, emotion, and behavior at a biological level. I see these not as separate fields, but as complementary lenses.</p>
+        <p>Beyond the lab, I've accumulated hands-on clinical training in Vietnam and China, working with diverse populations including cerebral palsy patients and elderly adults. I believe that good science must eventually serve real people.</p>
+        <p>I am principled, organized, and detail-oriented — and also flexible enough to know when to adapt.</p>
+      </div>
+      <div data-lang="vi">
+        <p>Tôi là nhà nghiên cứu người Việt Nam đang theo học Thạc sĩ <strong>Tâm lý học Ứng dụng (Lâm sàng & Tư vấn)</strong> tại Đại học Tây Nam, Trung Quốc. Hành trình của tôi bắt đầu từ <strong>Kỹ thuật Điện-Điện tử</strong>, nơi tôi rèn luyện tư duy phân tích và kỹ năng lập trình — những công cụ tôi mang vào nghiên cứu tâm lý học hiện nay.</p>
+        <p>Trọng tâm chính của tôi là <strong>Liệu pháp Nhận thức Hành vi (CBT)</strong> và cơ chế thay đổi tâm lý. Tôi cũng đặc biệt quan tâm đến <strong>khoa học thần kinh</strong> — cách não bộ định hình nhận thức, cảm xúc và hành vi ở cấp độ sinh học.</p>
+        <p>Ngoài nghiên cứu, tôi đã tích lũy kinh nghiệm lâm sàng thực tế tại Việt Nam và Trung Quốc, làm việc với nhiều nhóm đối tượng khác nhau. Tôi tin rằng khoa học tốt phải phục vụ con người thực.</p>
+      </div>
+      <div data-lang="zh">
+        <p>我是一名越南研究者，目前就读于西南大学<strong>应用心理学（临床与咨询方向）</strong>硕士项目。我的学术旅程始于<strong>电气-电子工程</strong>，在那里培养了扎实的分析与计算能力，如今将这些技能融入心理学研究与实践。</p>
+        <p>我的主要研究方向是<strong>认知行为疗法（CBT）</strong>及其改变机制，同时对<strong>神经科学</strong>——大脑如何在生物层面塑造认知、情绪与行为——有浓厚兴趣。我视这两者为互补的视角，而非割裂的领域。</p>
+        <p>在学术研究之外，我在越南和中国积累了丰富的临床实训经验，服务对象涵盖脑瘫患儿及老年群体。我相信，好的科学终究要服务于真实的人。</p>
+      </div>
+    </div>
+    <div class="about-sidebar">
+      <div class="info-card">
+        <h4>
+          <span data-lang="en">Currently</span>
+          <span data-lang="vi">Hiện tại</span>
+          <span data-lang="zh">当前</span>
+        </h4>
+        <div class="info-item"><div class="dot"></div><div>
+          <span data-lang="en">M.S. Applied Psychology — Southwest University, China</span>
+          <span data-lang="vi">Thạc sĩ Tâm lý học Ứng dụng — ĐH Tây Nam, Trung Quốc</span>
+          <span data-lang="zh">应用心理学硕士在读 — 西南大学</span>
+        </div></div>
+        <div class="info-item"><div class="dot"></div><div>
+          <span data-lang="en">Focus: Clinical & Counseling Psychology · CBT</span>
+          <span data-lang="vi">Hướng: Lâm sàng & Tư vấn · CBT</span>
+          <span data-lang="zh">方向：临床与咨询心理 · CBT</span>
+        </div></div>
+        <div class="info-item"><div class="dot"></div><div>
+          <span data-lang="en">Open to: Research collaborations, clinical opportunities, PhD applications</span>
+          <span data-lang="vi">Tìm kiếm: Hợp tác nghiên cứu, cơ hội lâm sàng, ứng tuyển PhD</span>
+          <span data-lang="zh">寻求：科研合作、临床机会、博士申请</span>
+        </div></div>
+      </div>
+      <div class="info-card">
+        <h4>
+          <span data-lang="en">Education Background</span>
+          <span data-lang="vi">Học vấn</span>
+          <span data-lang="zh">教育背景</span>
+        </h4>
+        <div class="info-item"><div class="dot"></div><div>
+          <span data-lang="en">B.Eng. Electrical-Electronic Engineering — Uni. of Transport & Communications, Hanoi (CGPA 3.47 · Thesis: 99/100)</span>
+          <span data-lang="vi">Cử nhân Kỹ thuật Điện-Điện tử — ĐH GTVT Hà Nội (GPA 3.47 · Luận văn: 99/100)</span>
+          <span data-lang="zh">河内交通大学 电气-电子工程学士（GPA 3.47 · 毕业论文：99/100）</span>
+        </div></div>
+        <div class="info-item"><div class="dot"></div><div>
+          <span data-lang="en">Zhejiang Normal University (undergraduate exchange)</span>
+          <span data-lang="vi">Đại học Sư phạm Chiết Giang (trao đổi)</span>
+          <span data-lang="zh">浙江师范大学（交流学习）</span>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- RESEARCH -->
+<section id="research" class="section">
+  <div class="section-label">
+    <span data-lang="en">Research</span>
+    <span data-lang="vi">Nghiên cứu</span>
+    <span data-lang="zh">研究项目</span>
+  </div>
+  <h2 class="section-title">
+    <span data-lang="en">Active & Recent Projects</span>
+    <span data-lang="vi">Dự án hiện tại & gần đây</span>
+    <span data-lang="zh">进行中 & 近期研究</span>
+  </h2>
+  <p class="section-intro">
+    <span data-lang="en">My research sits at the intersection of cognitive psychology, clinical application, and emerging tech. I lead several projects as principal investigator.</span>
+    <span data-lang="vi">Nghiên cứu của tôi nằm ở giao điểm giữa tâm lý học nhận thức, ứng dụng lâm sàng và công nghệ.</span>
+    <span data-lang="zh">我的研究位于认知心理学、临床应用与新兴技术的交叉地带，担任多项课题负责人。</span>
+  </p>
+
+  <div class="research-grid">
+    <div class="research-card">
+      <div class="rc-tag">
+        <span data-lang="en">Cognitive Psychology</span>
+        <span data-lang="vi">Tâm lý học nhận thức</span>
+        <span data-lang="zh">认知心理学</span>
+      </div>
+      <div class="rc-title">
+        <span data-lang="en">Vocabulary Memory Enhancement in Multimodal Learning</span>
+        <span data-lang="vi">Tăng cường ghi nhớ từ vựng trong môi trường học đa phương thức</span>
+        <span data-lang="zh">基于多模态学习环境的汉语词汇记忆增强</span>
+      </div>
+      <div class="rc-desc">
+        <span data-lang="en">How working memory and positive emotion interact to improve vocabulary retention in Chinese language learners — from a psychological perspective.</span>
+        <span data-lang="vi">Nghiên cứu cách bộ nhớ làm việc và cảm xúc tích cực tương tác để cải thiện ghi nhớ từ vựng tiếng Trung.</span>
+        <span data-lang="zh">从心理学视角看工作记忆与积极情绪对汉语词汇记忆的影响。</span>
+      </div>
+      <div class="rc-status ongoing">
+        <div class="dot-status"></div>
+        <span data-lang="en">Ongoing · Principal Investigator</span>
+        <span data-lang="vi">Đang thực hiện · Chủ nhiệm đề tài</span>
+        <span data-lang="zh">进行中 · 负责人</span>
+      </div>
+    </div>
+
+    <div class="research-card">
+      <div class="rc-tag">
+        <span data-lang="en">Clinical Psychology</span>
+        <span data-lang="vi">Tâm lý học lâm sàng</span>
+        <span data-lang="zh">临床心理学</span>
+      </div>
+      <div class="rc-title">
+        <span data-lang="en">Emotional Loneliness & Separation Anxiety in International Students</span>
+        <span data-lang="vi">Cô đơn cảm xúc và lo âu chia ly ở lưu học sinh quốc tế</span>
+        <span data-lang="zh">情感孤独对在华留学生分离焦虑的影响</span>
+      </div>
+      <div class="rc-desc">
+        <span data-lang="en">Examining the moderating role of peer relationship support in the link between emotional loneliness and separation anxiety among international students in China.</span>
+        <span data-lang="vi">Vai trò điều tiết của hỗ trợ quan hệ đồng đẳng trong mối liên hệ giữa cô đơn và lo âu chia ly.</span>
+        <span data-lang="zh">同伴关系支持的调节作用研究。</span>
+      </div>
+      <div class="rc-status ongoing">
+        <div class="dot-status"></div>
+        <span data-lang="en">Ongoing · Principal Investigator</span>
+        <span data-lang="vi">Đang thực hiện · Chủ nhiệm đề tài</span>
+        <span data-lang="zh">进行中 · 负责人</span>
+      </div>
+    </div>
+
+    <div class="research-card">
+      <div class="rc-tag">
+        <span data-lang="en">Psychology × Tech</span>
+        <span data-lang="vi">Tâm lý × Công nghệ</span>
+        <span data-lang="zh">心理学 × 技术</span>
+      </div>
+      <div class="rc-title">
+        <span data-lang="en">"With You" — Psychology-Powered Relationship App</span>
+        <span data-lang="vi">"Cùng bạn" — Ứng dụng tâm lý cho mối quan hệ</span>
+        <span data-lang="zh">《和你一起》——以心理学赋能爱情为婚姻幸福奠基</span>
+      </div>
+      <div class="rc-desc">
+        <span data-lang="en">Innovation project (SWU 2025, No. X202510345034): A game-software product applying psychology principles to support healthy romantic relationships and marital wellbeing.</span>
+        <span data-lang="vi">Dự án sáng tạo (ĐH Tây Nam 2025): Phần mềm game ứng dụng tâm lý học để hỗ trợ mối quan hệ lành mạnh.</span>
+        <span data-lang="zh">西南大学2025年校级大创项目（编号X202510345034）。</span>
+      </div>
+      <div class="rc-status ongoing">
+        <div class="dot-status"></div>
+        <span data-lang="en">Ongoing · Principal Investigator</span>
+        <span data-lang="vi">Đang thực hiện · Chủ nhiệm đề tài</span>
+        <span data-lang="zh">进行中 · 负责人</span>
+      </div>
+    </div>
+
+    <div class="research-card">
+      <div class="rc-tag">
+        <span data-lang="en">CBT · Trauma · Occupational</span>
+        <span data-lang="vi">CBT · Chấn thương · Nghề nghiệp</span>
+        <span data-lang="zh">CBT · 创伤 · 职业心理</span>
+      </div>
+      <div class="rc-title">
+        <span data-lang="en">CBT-Based Support for First Responders & Disaster Workers</span>
+        <span data-lang="vi">Hỗ trợ CBT cho lực lượng cứu hộ cứu nạn và nhân viên ứng phó thảm họa</span>
+        <span data-lang="zh">认知行为疗法在救援人员及特殊任务群体心理支持中的应用</span>
+      </div>
+      <div class="rc-desc">
+        <span data-lang="en">Exploring how CBT can be adapted to support first responders, rescue teams, and professionals who regularly face traumatic events — disasters, accidents, and other high-stress operations. Research focus at Southwest University.</span>
+        <span data-lang="vi">Khám phá cách CBT có thể được điều chỉnh để hỗ trợ lực lượng cứu hộ, cứu nạn và các nhân viên thường xuyên tiếp xúc với thảm họa, tai nạn và các nhiệm vụ đặc thù. Hướng nghiên cứu tại Đại học Tây Nam.</span>
+        <span data-lang="zh">探讨如何将CBT应用于支持频繁接触灾难、事故等特殊任务的救援人员群体，关注职业性创伤暴露下的心理健康干预。西南大学研究方向。</span>
+      </div>
+      <div class="rc-status ongoing">
+        <div class="dot-status"></div>
+        <span data-lang="en">Ongoing · Southwest University</span>
+        <span data-lang="vi">Đang thực hiện · Đại học Tây Nam</span>
+        <span data-lang="zh">进行中 · 西南大学</span>
+      </div>
+    </div>
+
+    <div class="research-card">
+        <span data-lang="vi">Lão khoa · Giấc ngủ</span>
+        <span data-lang="zh">老年学 · 睡眠</span>
+      </div>
+      <div class="rc-title">
+        <span data-lang="en">Sleep Disorders & Cognitive Decline in Elderly Adults</span>
+        <span data-lang="vi">Rối loạn giấc ngủ và suy giảm nhận thức ở người cao tuổi</span>
+        <span data-lang="zh">睡眠障碍对金华市老年人认知衰退的影响</span>
+      </div>
+      <div class="rc-desc">
+        <span data-lang="en">Study examining how sleep disorders contribute to cognitive decline in elderly populations in Jinhua, China.</span>
+        <span data-lang="vi">Nghiên cứu ảnh hưởng của rối loạn giấc ngủ đến suy giảm nhận thức ở người cao tuổi tại Kim Hoa, Trung Quốc.</span>
+        <span data-lang="zh">浙江师范大学心理学院第二期学生课外学术科技活动课题，一般结题。</span>
+      </div>
+      <div class="rc-status completed">
+        <div class="dot-status"></div>
+        <span data-lang="en">Completed · Principal Investigator</span>
+        <span data-lang="vi">Hoàn thành · Chủ nhiệm đề tài</span>
+        <span data-lang="zh">已结题 · 负责人</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- PROJECTS / ACHIEVEMENTS -->
+<section id="projects" class="section">
+  <div class="section-label">
+    <span data-lang="en">Achievements</span>
+    <span data-lang="vi">Thành tích</span>
+    <span data-lang="zh">成就与荣誉</span>
+  </div>
+  <h2 class="section-title">
+    <span data-lang="en">Awards & Clinical Experience</span>
+    <span data-lang="vi">Giải thưởng & Kinh nghiệm lâm sàng</span>
+    <span data-lang="zh">获奖与临床经历</span>
+  </h2>
+  <p class="section-intro">
+    <span data-lang="en">From engineering competitions to clinical internships — a cross-disciplinary track record.</span>
+    <span data-lang="vi">Từ cuộc thi kỹ thuật đến thực tập lâm sàng — hành trình đa ngành.</span>
+    <span data-lang="zh">从工程竞赛到临床实习——跨学科的成长轨迹。</span>
+  </p>
+
+  <div class="proj-list">
+    <div class="proj-item">
+      <!-- REPLACE emoji with <img src="icon.png"> when ready -->
+      <div class="proj-avatar">🧠</div>
+      <div class="proj-year">2025<small>Award</small></div>
+      <div class="proj-body">
+        <div class="proj-title">
+          <span data-lang="en">"With You" Game Software — Psychology Product Design Forum</span>
+          <span data-lang="vi">Phần mềm game "Cùng Bạn" — Diễn đàn thiết kế sản phẩm tâm lý</span>
+          <span data-lang="zh">《和你一起》游戏软件 — 2025心理学产品设计分论坛</span>
+        </div>
+        <div class="proj-org">
+          <span data-lang="en">Psychology Department Competition, Zhejiang Normal University</span>
+          <span data-lang="vi">Cuộc thi khoa Tâm lý, ĐH Sư phạm Chiết Giang</span>
+          <span data-lang="zh">浙江师范大学心理学院</span>
+        </div>
+      </div>
+      <div class="proj-badge">
+        <span data-lang="en">2nd Prize</span>
+        <span data-lang="vi">Giải Nhì</span>
+        <span data-lang="zh">二等奖</span>
+      </div>
+    </div>
+
+    <div class="proj-item">
+      <div class="proj-avatar">🎮</div>
+      <div class="proj-year">2024<small>Award</small></div>
+      <div class="proj-body">
+        <div class="proj-title">
+          <span data-lang="en">"Roboy" Game Software — National Digital Art Design Competition (NCDA)</span>
+          <span data-lang="vi">Phần mềm game "Roboy" — Cuộc thi Thiết kế Nghệ thuật Số Quốc gia (NCDA)</span>
+          <span data-lang="zh">《Roboy》游戏软件 — 2024未来设计师·全国高校数字艺术设计大赛</span>
+        </div>
+        <div class="proj-org">
+          <span data-lang="en">National University Digital Art Design Competition, China</span>
+          <span data-lang="vi">Cuộc thi Thiết kế Nghệ thuật Số Đại học Toàn quốc, Trung Quốc</span>
+          <span data-lang="zh">省区级比赛</span>
+        </div>
+      </div>
+      <div class="proj-badge">
+        <span data-lang="en">Provincial 3rd Prize</span>
+        <span data-lang="vi">Giải Ba cấp tỉnh</span>
+        <span data-lang="zh">省区三等奖</span>
+      </div>
+    </div>
+
+    <div class="proj-item">
+      <div class="proj-avatar">⚡</div>
+      <div class="proj-year">—<small>Award</small></div>
+      <div class="proj-body">
+        <div class="proj-title">
+          <span data-lang="en">Error Detection Coding Algorithms in Communication Protocols</span>
+          <span data-lang="vi">Thuật toán mã hóa phát hiện lỗi trong các giao thức truyền thông</span>
+          <span data-lang="zh">通信协议中差错检测编码算法的分析与评估</span>
+        </div>
+        <div class="proj-org">
+          <span data-lang="en">Faculty of Electrical-Electronic Engineering — Student Science Project</span>
+          <span data-lang="vi">Khoa Điện-Điện tử — Đề tài nghiên cứu sinh viên</span>
+          <span data-lang="zh">电气-电子工程学院</span>
+        </div>
+      </div>
+      <div class="proj-badge">
+        <span data-lang="en">1st Prize</span>
+        <span data-lang="vi">Giải Nhất</span>
+        <span data-lang="zh">一等奖</span>
+      </div>
+    </div>
+
+    <div class="proj-item">
+      <div class="proj-avatar">🏥</div>
+      <div class="proj-year">—<small>Clinical</small></div>
+      <div class="proj-body">
+        <div class="proj-title">
+          <span data-lang="en">Clinical Psychology Internship — Hanoi Bachmai Hospital (224 hrs)</span>
+          <span data-lang="vi">Thực tập Tâm lý lâm sàng — Bệnh viện Bạch Mai (224 giờ)</span>
+          <span data-lang="zh">临床心理学实习 — 越南河内白梅医院（224小时）</span>
+        </div>
+        <div class="proj-org">
+          <span data-lang="en">Psychological assessment, Behavioral Activation, group therapy, case observation</span>
+          <span data-lang="vi">Đánh giá tâm lý, kích hoạt hành vi, trị liệu nhóm, quan sát ca lâm sàng</span>
+          <span data-lang="zh">心理测评、行为激活、团体治疗、案例观察</span>
+        </div>
+      </div>
+      <div class="proj-badge">
+        <span data-lang="en">Internship</span>
+        <span data-lang="vi">Thực tập</span>
+        <span data-lang="zh">实习</span>
+      </div>
+    </div>
+
+    <div class="proj-item">
+      <div class="proj-avatar">🏥</div>
+      <div class="proj-year">—<small>Clinical</small></div>
+      <div class="proj-body">
+        <div class="proj-title">
+          <span data-lang="en">Clinical Psychology Internship — Guangfu Hospital, Jinhua (12 weeks)</span>
+          <span data-lang="vi">Thực tập Tâm lý lâm sàng — Bệnh viện Quảng Phúc, Kim Hoa (12 tuần)</span>
+          <span data-lang="zh">临床心理学实习 — 中国浙江金华广福医院（12周）</span>
+        </div>
+        <div class="proj-org">
+          <span data-lang="en">Counseling case observation and practice</span>
+          <span data-lang="vi">Quan sát và thực hành ca tư vấn tâm lý</span>
+          <span data-lang="zh">观察并学习心理咨询案例</span>
+        </div>
+      </div>
+      <div class="proj-badge">
+        <span data-lang="en">Internship</span>
+        <span data-lang="vi">Thực tập</span>
+        <span data-lang="zh">实习</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- SKILLS -->
+<section id="skills" class="section">
+  <div class="section-label">
+    <span data-lang="en">Skills</span>
+    <span data-lang="vi">Kỹ năng</span>
+    <span data-lang="zh">技能</span>
+  </div>
+  <h2 class="section-title">
+    <span data-lang="en">Toolkit</span>
+    <span data-lang="vi">Bộ công cụ</span>
+    <span data-lang="zh">能力图谱</span>
+  </h2>
+  <p class="section-intro">
+    <span data-lang="en">My background spans both technical and psychological domains — I've had the chance to work with quantitative tools alongside clinical and research methods.</span>
+    <span data-lang="vi">Nền tảng của tôi trải dài qua cả lĩnh vực kỹ thuật lẫn tâm lý — tôi có cơ hội làm việc với các công cụ định lượng song song với phương pháp nghiên cứu và lâm sàng.</span>
+    <span data-lang="zh">我的背景横跨技术与心理两个领域，有机会将定量工具与临床及研究方法结合运用。</span>
+  </p>
+  <div class="skills-grid">
+    <div class="skill-group">
+      <h4>
+        <span data-lang="en">Clinical Methods</span>
+        <span data-lang="vi">Phương pháp lâm sàng</span>
+        <span data-lang="zh">临床方法</span>
+      </h4>
+      <div class="skill-tags">
+        <span class="skill-tag highlight">CBT</span>
+        <span class="skill-tag">Behavioral Activation</span>
+        <span class="skill-tag">Group Therapy</span>
+        <span class="skill-tag">
+          <span data-lang="en">Psychological Assessment</span>
+          <span data-lang="vi">Đánh giá tâm lý</span>
+          <span data-lang="zh">心理测评</span>
+        </span>
+        <span class="skill-tag">
+          <span data-lang="en">Case Formulation</span>
+          <span data-lang="vi">Xây dựng ca</span>
+          <span data-lang="zh">个案概念化</span>
+        </span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <h4>
+        <span data-lang="en">Research & Data</span>
+        <span data-lang="vi">Nghiên cứu & Dữ liệu</span>
+        <span data-lang="zh">研究与数据</span>
+      </h4>
+      <div class="skill-tags">
+        <span class="skill-tag highlight">Python</span>
+        <span class="skill-tag highlight">R</span>
+        <span class="skill-tag">Matlab</span>
+        <span class="skill-tag">C / C#</span>
+        <span class="skill-tag">
+          <span data-lang="en">Statistical Analysis</span>
+          <span data-lang="vi">Phân tích thống kê</span>
+          <span data-lang="zh">统计分析</span>
+        </span>
+        <span class="skill-tag">
+          <span data-lang="en">Questionnaire Design</span>
+          <span data-lang="vi">Thiết kế bảng hỏi</span>
+          <span data-lang="zh">问卷设计</span>
+        </span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <h4>
+        <span data-lang="en">Interests & Future Directions</span>
+        <span data-lang="vi">Hướng nghiên cứu tương lai</span>
+        <span data-lang="zh">兴趣与未来方向</span>
+      </h4>
+      <div class="skill-tags">
+        <span class="skill-tag highlight">Neuroscience</span>
+        <span class="skill-tag">
+          <span data-lang="en">Computational Psychiatry</span>
+          <span data-lang="vi">Tâm thần học tính toán</span>
+          <span data-lang="zh">计算精神病学</span>
+        </span>
+        <span class="skill-tag">
+          <span data-lang="en">Digital Mental Health</span>
+          <span data-lang="vi">Sức khỏe tâm thần số</span>
+          <span data-lang="zh">数字心理健康</span>
+        </span>
+        <span class="skill-tag">Game-based Therapy</span>
+        <span class="skill-tag">EEG / Biofeedback</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <h4>
+        <span data-lang="en">Languages</span>
+        <span data-lang="vi">Ngôn ngữ</span>
+        <span data-lang="zh">语言</span>
+      </h4>
+      <div class="skill-tags">
+        <span class="skill-tag highlight">
+          <span data-lang="en">Vietnamese (Native)</span>
+          <span data-lang="vi">Tiếng Việt (bản ngữ)</span>
+          <span data-lang="zh">越南语（母语）</span>
+        </span>
+        <span class="skill-tag">
+          <span data-lang="en">English (Proficient)</span>
+          <span data-lang="vi">Tiếng Anh (thành thạo)</span>
+          <span data-lang="zh">英语（熟练）</span>
+        </span>
+        <span class="skill-tag">
+          <span data-lang="en">Chinese (Proficient)</span>
+          <span data-lang="vi">Tiếng Trung (thành thạo)</span>
+          <span data-lang="zh">中文（熟练）</span>
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="inner">
+    <div>
+      <div class="section-label">
+        <span data-lang="en">Contact</span>
+        <span data-lang="vi">Liên hệ</span>
+        <span data-lang="zh">联系</span>
+      </div>
+      <h2 class="section-title">
+        <span data-lang="en">Let's connect.</span>
+        <span data-lang="vi">Kết nối với tôi.</span>
+        <span data-lang="zh">欢迎联系我。</span>
+      </h2>
+      <p class="section-intro">
+        <span data-lang="en">Whether you're a researcher, clinician, professor, or just curious — I'd love to hear from you.</span>
+        <span data-lang="vi">Dù bạn là nhà nghiên cứu, chuyên gia lâm sàng, giáo sư hay chỉ đơn giản là tò mò — tôi rất muốn kết nối.</span>
+        <span data-lang="zh">无论您是研究者、临床工作者、教授，还是只是有些好奇——欢迎联系。</span>
+      </p>
+      <div class="contact-links">
+        <a href="/cdn-cgi/l/email-protection#9bf3eefaf5fce2eee1faf5e2f2f5fcdbf4eeeff7f4f4f0b5f8f4f6" class="contact-link">
+          <div class="icon-box">✉</div>
+          <span class="__cf_email__" data-cfemail="8ce4f9ede2ebf5f9f6ede2f5e5e2ebcce3f9f8e0e3e3e7a2efe3e1">[email&#160;protected]</span>
+        </a>
+        <a href="#" class="contact-link">
+          <div class="icon-box">💬</div>
+          WeChat: xinningvn
+        </a>
+        <!-- ADD YOUR LINKEDIN / RESEARCHGATE / GITHUB BELOW -->
+        <!-- <a href="https://linkedin.com/in/yourprofile" class="contact-link">
+          <div class="icon-box">in</div>
+          LinkedIn
+        </a> -->
+      </div>
+    </div>
+    <div>
+      <p class="contact-quote">
+        <span data-lang="en">"The mind is not a <span>vessel to be filled</span>, but a fire to be kindled."</span>
+        <span data-lang="vi">"Tâm trí không phải chiếc bình để lấp đầy, mà là <span>ngọn lửa để thắp sáng.</span>"</span>
+        <span data-lang="zh">"心智不是<span>一个待填满的容器</span>，而是一团待点燃的火焰。"</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span data-lang="en">© 2025 Tram-Anh Ngoc Huynh · Built with curiosity 🌱</span>
+  <span data-lang="vi">© 2025 Huỳnh Ngọc Trâm Anh · Xây dựng với tò mò 🌱</span>
+  <span data-lang="zh">© 2025 黄馨宁 · 以好奇心搭建 🌱</span>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  function setLang(lang) {
+    document.body.className = 'lang-' + lang;
+    document.querySelectorAll('.lang-bar button').forEach(b => b.classList.remove('active'));
+    document.getElementById('btn-' + lang).classList.add('active');
+    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : lang;
+  }
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.research-c
