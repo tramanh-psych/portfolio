@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CBT-Based Support for First Responders & Disaster Workers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#fafaf8;--fg:#1a1a1a;--fg-soft:#555;--yellow:#f5c842;--yellow-light:#fff9e0;--yellow-mid:#fde97a;--border:#e0e0d8;--serif:'Cormorant Garamond',Georgia,serif;--sans:'DM Sans',sans-serif;}
+  *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+  body{font-family:var(--sans);background:var(--bg);color:var(--fg);font-size:16px;line-height:1.7}
+  .lang-bar{position:fixed;top:0;right:0;z-index:100;display:flex;background:var(--fg);border-bottom-left-radius:10px;overflow:hidden}
+  .lang-current{background:var(--yellow);color:var(--fg);font-size:12px;font-weight:600;letter-spacing:.08em;padding:8px 14px;font-family:var(--sans)}
+  .lang-link{color:#aaa;font-size:12px;font-weight:500;letter-spacing:.08em;padding:8px 14px;font-family:var(--sans);text-decoration:none;transition:color .2s}
+  .lang-link:hover{color:#fff}
+  nav{position:sticky;top:0;background:rgba(250,250,248,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);z-index:50;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:60px}
+  .nav-logo{font-family:var(--serif);font-size:22px;font-weight:600;color:var(--fg);text-decoration:none}
+  .nav-logo span{display:inline-block;width:8px;height:8px;background:var(--yellow);border-radius:50%;margin-left:4px;vertical-align:middle;margin-bottom:2px}
+  .nav-back{font-size:13px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--fg-soft);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color .2s}
+  .nav-back:hover{color:var(--fg)}
+  .project-hero{max-width:900px;margin:0 auto;padding:70px 48px 50px}
+  .proj-tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;background:var(--yellow-light);border:1px solid var(--yellow-mid);color:#7a6000;padding:5px 14px;border-radius:20px;margin-bottom:20px}
+  .proj-title{font-family:var(--serif);font-size:clamp(30px,4vw,48px);font-weight:600;line-height:1.15;margin-bottom:16px}
+  .proj-meta{display:flex;gap:24px;flex-wrap:wrap;margin-bottom:0}
+  .meta-item{font-size:13px;color:var(--fg-soft);display:flex;align-items:center;gap:6px}
+  .meta-dot{width:6px;height:6px;background:var(--yellow);border-radius:50%;flex-shrink:0}
+  .content-body{max-width:900px;margin:0 auto;padding:0 48px 80px}
+  .image-slot{width:100%;height:300px;background:var(--yellow-light);border:2px dashed var(--yellow-mid);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:14px;color:#b0a060;margin:24px 0;text-align:center;flex-direction:column;gap:8px}
+  .image-slot .slot-icon{font-size:32px}
+  .image-slot small{font-size:12px;color:#ccc;font-family:monospace}
+  .content-section{margin-bottom:52px}
+  .content-section h3{font-family:var(--serif);font-size:26px;font-weight:600;margin-bottom:6px}
+  .section-rule{width:40px;height:2px;background:var(--yellow);margin-bottom:20px}
+  .content-section p{font-size:15px;color:var(--fg-soft);line-height:1.85;margin-bottom:14px}
+  .content-section strong{color:var(--fg);font-weight:500}
+  .process-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px;margin-top:24px}
+  .process-step{background:#fff;border:1px solid var(--border);border-radius:14px;padding:24px 26px}
+  .step-label{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#a07800;margin-bottom:6px}
+  .step-title{font-family:var(--serif);font-size:18px;font-weight:600;margin-bottom:10px}
+  .step-desc{font-size:14px;color:var(--fg-soft);line-height:1.7;margin-bottom:12px}
+  .process-list{padding-left:18px;font-size:14px;color:var(--fg-soft);line-height:1.8}
+  .process-list li{margin-bottom:6px}
+  .highlights-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin-top:24px}
+  .highlight-item{display:flex;gap:16px;align-items:flex-start;background:#fff;border:1px solid var(--border);border-radius:12px;padding:20px 22px}
+  .hi-icon{font-size:24px;flex-shrink:0;margin-top:2px}
+  .highlight-item strong{display:block;font-size:14.5px;font-weight:500;margin-bottom:4px}
+  .highlight-item p{font-size:13.5px;color:var(--fg-soft);line-height:1.6;margin:0}
+  .deliverable-note{background:var(--yellow-light);border:1px solid var(--yellow-mid);border-radius:14px;padding:24px 28px;font-size:14px;color:var(--fg-soft);line-height:1.7;margin-top:24px}
+  .deliverable-note strong{color:var(--fg);font-weight:500}
+  .back-row{display:flex;justify-content:center;padding:40px 0 60px}
+  .btn{display:inline-block;padding:10px 24px;border-radius:30px;font-size:13px;font-weight:500;letter-spacing:.04em;text-decoration:none;transition:all .2s;border:1.5px solid var(--border);color:var(--fg);background:transparent}
+  .btn:hover{border-color:var(--fg)}
+  .btn-primary{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+  .btn-primary:hover{background:#333}
+  footer{text-align:center;padding:24px;font-size:12px;color:#bbb;border-top:1px solid var(--border)}
+  @media(max-width:768px){nav{padding:0 20px}.project-hero{padding:50px 20px 36px}.content-body{padding:0 20px 60px}}
+</style>
+</head>
+<body>
+<div class="lang-bar"><span class="lang-current">('EN', 'cbt-responders.html')</span></div>
+<nav>
+  <a href="../index.html" class="nav-logo">Wired & Wondering<span></span></a>
+  <a href="../index.html#research" class="nav-back">← Research</a>
+</nav>
+
+<div class="project-hero">
+  <div class="proj-tag">CBT · Trauma · Occupational Psychology</div>
+  <h1 class="proj-title">CBT-Based Support for First Responders & Disaster Workers</h1>
+  <div class="proj-meta">
+    <span class="meta-item"><span class="meta-dot"></span>Southwest University · Ongoing</span>
+  </div>
+</div>
+
+<div class="content-body">
+
+  <!-- OVERVIEW -->
+  <div class="content-section">
+    <h3>Overview</h3>
+    <div class="section-rule"></div>
+    <p>This project investigates how <strong>Cognitive Behavioral Therapy (CBT)</strong> can be adapted and applied to support first responders, rescue workers, and professionals regularly exposed to traumatic events — including natural disasters, accidents, and mass casualty incidents.</p>
+        <p>These populations face unique psychological stressors: repeated trauma exposure, suppressed emotional expression, organizational pressure to appear resilient, and limited access to traditional mental health services. Standard CBT protocols, developed primarily for general populations, may not adequately address these occupational-specific patterns.</p>
+    <!-- IMAGE SLOT: Replace with <img src="../your-image.jpg"> -->
+    <div class="image-slot">
+      <span class="slot-icon">🖼️</span>
+      Add an image here
+      <small>&lt;img src="../your-image.jpg" style="width:100%;border-radius:14px"&gt;</small>
+    </div>
+  </div>
+
+  <!-- BACKGROUND -->
+  <div class="content-section">
+    <h3>Background</h3>
+    <div class="section-rule"></div>
+    <p>Research on occupational trauma in emergency services has grown significantly over the past decade, but <strong>intervention-focused studies remain limited</strong>. Most existing programs focus on post-incident debriefing rather than sustained cognitive-behavioral change. This gap motivates the present project.</p>
+        <p>My interest in this area stems from my clinical training, during which I observed how helping professionals often internalize distress rather than seeking support — and how cognitive restructuring techniques can provide accessible, low-stigma tools for coping.</p>
+    <!-- IMAGE SLOT -->
+    <div class="image-slot">
+      <span class="slot-icon">🖼️</span>
+      Add a background image or diagram
+      <small>&lt;img src="../your-image.jpg" style="width:100%;border-radius:14px"&gt;</small>
+    </div>
+  </div>
+
+  <!-- PROCESS -->
+  <div class="content-section">
+    <h3>Project Development</h3>
+    <div class="section-rule"></div>
+    <div class="process-grid">
+      
+        <div class='process-step'>
+          <div class='step-label'>Phase 1</div>
+          <h4 class='step-title'>Literature Review</h4>
+          <p class='step-desc'>Systematic review of CBT adaptations for trauma populations, occupational stress frameworks, and existing interventions for emergency workers.</p>
+          <ul class='process-list'><li>Reviewed 40+ papers on CBT and occupational trauma</li><li>Identified gaps in responder-specific protocols</li><li>Mapped cognitive patterns common to high-exposure professions</li></ul>
+        </div>
+        <div class='process-step'>
+          <div class='step-label'>Phase 2</div>
+          <h4 class='step-title'>Framework Development</h4>
+          <p class='step-desc'>Developing a conceptual model that maps typical cognitive distortions in first responders to corresponding CBT intervention targets.</p>
+          <ul class='process-list'><li>Adapted cognitive restructuring modules</li><li>Incorporated psychoeducation on moral injury</li><li>Designed session format suitable for group delivery</li></ul>
+        </div>
+        <div class='process-step'>
+          <div class='step-label'>Phase 3</div>
+          <h4 class='step-title'>Validation & Application</h4>
+          <p class='step-desc'>Plans to pilot the adapted protocol with a target population and collect outcome data. (To be updated)</p>
+          <ul class='process-list'><li>Protocol finalization in progress</li><li>IRB/ethics review pending</li><li>Outcome measures selected</li></ul>
+        </div>
+    </div>
+  </div>
+
+  <!-- HIGHLIGHTS -->
+  <div class="content-section">
+    <h3>Key Highlights</h3>
+    <div class="section-rule"></div>
+    <div class="highlights-grid">
+      <div class='highlight-item'><div class='hi-icon'>🔍</div><div><strong>Research Gap Identified</strong><p>Existing protocols underserve responder populations due to culture-specific barriers to help-seeking.</p></div></div><div class='highlight-item'><div class='hi-icon'>🧠</div><div><strong>CBT Adaptation Focus</strong><p>Targeting cognitive distortions specific to repeated trauma exposure — not single-incident PTSD.</p></div></div><div class='highlight-item'><div class='hi-icon'>👥</div><div><strong>Group Format Design</strong><p>Adapting CBT for group delivery to leverage peer normalization and reduce stigma.</p></div></div><div class='highlight-item'><div class='hi-icon'>📊</div><div><strong>Quantitative + Qualitative</strong><p>Mixed-methods approach combining standardized scales with semi-structured interviews.</p></div></div>
+    </div>
+  </div>
+
+  <!-- DELIVERABLES -->
+  <div class="content-section">
+    <h3>Final Deliverables</h3>
+    <div class="section-rule"></div>
+    <div class="deliverable-note">
+      <!-- ✏️ EDIT: Describe outcomes, publications, presentations, or add links -->
+      <strong>To be updated.</strong> This section will include final outputs such as publications, presentations, reports, or tools produced by this project.
+    </div>
+    <!-- VIDEO SLOT: embed YouTube or upload video file -->
+    <!-- <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:14px;margin-top:20px">
+      <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none" allowfullscreen></iframe>
+    </div> -->
+  </div>
+
+  <div class="back-row">
+    <a href="../index.html#research" class="btn">← Back to all projects</a>
+  </div>
+</div>
+
+<footer>© 2025 Tram-Anh Ngoc Huynh · <a href="../index.html" style="color:#bbb">Home</a></footer>
+</body>
+</html>
