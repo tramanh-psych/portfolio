@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>关于我 — 黄馨宁</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#fafaf8;--fg:#1a1a1a;--fg-soft:#555;
+    --yellow:#f5c842;--yellow-light:#fff9e0;--yellow-mid:#fde97a;
+    --border:#e0e0d8;
+    --serif:'Cormorant Garamond',Georgia,serif;
+    --sans:'DM Sans',sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--sans);background:var(--bg);color:var(--fg);font-size:16px;line-height:1.7}
+  /* lang bar */
+  .lang-bar{position:fixed;top:0;right:0;z-index:100;display:flex;background:var(--fg);border-bottom-left-radius:10px;overflow:hidden}
+  .lang-current{background:var(--yellow);color:var(--fg);font-size:12px;font-weight:600;letter-spacing:.08em;padding:8px 14px;font-family:var(--sans)}
+  .lang-link{color:#aaa;font-size:12px;font-weight:500;letter-spacing:.08em;padding:8px 14px;font-family:var(--sans);text-decoration:none;transition:color .2s}
+  .lang-link:hover{color:#fff}
+  /* nav */
+  nav{position:sticky;top:0;background:rgba(250,250,248,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);z-index:50;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:60px}
+  .nav-logo{font-family:var(--serif);font-size:22px;font-weight:600;color:var(--fg);text-decoration:none}
+  .nav-logo span{display:inline-block;width:8px;height:8px;background:var(--yellow);border-radius:50%;margin-left:4px;vertical-align:middle;margin-bottom:2px}
+  .nav-links{display:flex;gap:28px;list-style:none}
+  .nav-links a{font-size:13px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--fg-soft);text-decoration:none;transition:color .2s}
+  .nav-links a:hover,.nav-links a.active{color:var(--fg)}
+  /* hero */
+  .about-hero{max-width:1100px;margin:0 auto;padding:80px 48px 60px;display:grid;grid-template-columns:1fr 2fr;gap:60px;align-items:start}
+  .about-photo-wrap{position:relative}
+  .about-photo{width:260px;height:320px;border-radius:120px 120px 80px 80px;background:var(--yellow-light);border:2px solid var(--yellow-mid);overflow:hidden;display:flex;align-items:center;justify-content:center}
+  .about-photo img{width:100%;height:100%;object-fit:cover}
+  .photo-placeholder{text-align:center;color:#bba;font-size:13px;padding:20px}
+  .photo-placeholder .icon{font-size:36px;margin-bottom:8px;display:block}
+  .deco-dot{position:absolute;width:12px;height:12px;background:var(--yellow);border-radius:50%}
+  .deco-dot-1{top:16px;right:-4px}
+  .deco-dot-2{bottom:40px;left:-12px;width:18px;height:18px;background:var(--yellow-mid)}
+  .about-intro-col{}
+  .about-tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;background:var(--yellow-light);border:1px solid var(--yellow-mid);color:#7a6000;padding:5px 14px;border-radius:20px;margin-bottom:20px}
+  .about-name{font-family:var(--serif);font-size:clamp(34px,4vw,52px);font-weight:600;line-height:1.1;margin-bottom:6px}
+  .about-name-sub{font-family:var(--serif);font-size:18px;font-style:italic;color:var(--fg-soft);margin-bottom:24px}
+  .about-bio{font-size:15px;color:var(--fg-soft);line-height:1.9;max-width:560px;margin-bottom:28px}
+  .about-bio strong{color:var(--fg);font-weight:500}
+  .about-bio p{margin-bottom:14px}
+  .btn{display:inline-block;padding:10px 24px;border-radius:30px;font-size:13px;font-weight:500;letter-spacing:.04em;text-decoration:none;transition:all .2s;border:none;font-family:var(--sans)}
+  .btn-primary{background:var(--fg);color:var(--bg)}
+  .btn-primary:hover{background:#333}
+  .btn-secondary{background:transparent;color:var(--fg);border:1.5px solid var(--border)}
+  .btn-secondary:hover{border-color:var(--fg)}
+  /* section */
+  .section{padding:80px 48px;max-width:1100px;margin:0 auto}
+  .section-divider{border:none;border-top:1px solid var(--border);max-width:1100px;margin:0 auto}
+  .section-label{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#a07800;font-weight:600;margin-bottom:10px;display:flex;align-items:center;gap:10px}
+  .section-label::after{content:'';display:inline-block;width:28px;height:1.5px;background:var(--yellow)}
+  .section-title{font-family:var(--serif);font-size:clamp(26px,3vw,38px);font-weight:600;line-height:1.2;margin-bottom:20px}
+  /* how I do research */
+  .how-body{font-size:15px;color:var(--fg-soft);line-height:1.9;max-width:720px}
+  .how-body p{margin-bottom:16px}
+  .how-body strong{color:var(--fg);font-weight:500}
+  /* research interests */
+  .interest-list{display:flex;flex-direction:column;gap:32px;margin-top:40px}
+  .interest-item{border:1px solid var(--border);border-radius:16px;background:#fff;overflow:hidden;transition:box-shadow .2s}
+  .interest-item:hover{box-shadow:0 6px 28px rgba(0,0,0,.06)}
+  .interest-header{padding:28px 32px;cursor:pointer;display:flex;align-items:flex-start;justify-content:space-between;gap:20px}
+  .interest-header-left{}
+  .interest-num{font-family:var(--serif);font-size:42px;font-weight:600;color:var(--yellow-mid);line-height:1;margin-bottom:4px}
+  .interest-title{font-family:var(--serif);font-size:22px;font-weight:600;line-height:1.25;margin-bottom:8px}
+  .interest-tags{display:flex;gap:8px;flex-wrap:wrap}
+  .itag{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;background:var(--yellow-light);border:1px solid var(--yellow-mid);color:#7a6000;padding:3px 10px;border-radius:20px}
+  .interest-toggle{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--border);background:transparent;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;flex-shrink:0;transition:all .2s;margin-top:4px}
+  .interest-toggle:hover{border-color:var(--yellow);background:var(--yellow-light)}
+  .interest-body{padding:0 32px 28px;display:none;border-top:1px solid var(--border)}
+  .interest-body.open{display:block}
+  .interest-body p{font-size:14.5px;color:var(--fg-soft);line-height:1.85;margin-top:16px;margin-bottom:12px}
+  .interest-body strong{color:var(--fg);font-weight:500}
+  .interest-body h5{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#a07800;margin-top:20px;margin-bottom:8px}
+  .related-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+  .related-link{font-size:13px;color:var(--fg);text-decoration:none;border:1px solid var(--border);padding:6px 14px;border-radius:20px;transition:all .2s;display:inline-flex;align-items:center;gap:6px}
+  .related-link:hover{border-color:var(--yellow);background:var(--yellow-light)}
+  .related-link::after{content:'→';font-size:12px}
+  /* contact strip */
+  .contact-strip{background:var(--fg);padding:60px 48px;color:var(--bg)}
+  .contact-strip .inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap}
+  .contact-strip p{color:#aaa;font-size:15px;max-width:400px;line-height:1.7}
+  .contact-strip h3{font-family:var(--serif);font-size:28px;color:#fff;margin-bottom:8px}
+  .contact-links{display:flex;flex-direction:column;gap:12px}
+  .contact-link{display:flex;align-items:center;gap:12px;color:#ccc;text-decoration:none;font-size:14px;transition:color .2s}
+  .contact-link:hover{color:var(--yellow)}
+  .icon-box{width:36px;height:36px;border-radius:9px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s}
+  .contact-link:hover .icon-box{background:var(--yellow)}
+  footer{text-align:center;padding:24px;font-size:12px;color:#bbb;border-top:1px solid var(--border)}
+  @media(max-width:768px){
+    .about-hero{grid-template-columns:1fr;padding:40px 20px;gap:36px}
+    .about-photo{width:200px;height:250px}
+    nav{padding:0 20px}.nav-links{gap:14px}
+    .section{padding:60px 20px}
+    .interest-header{padding:20px 20px}
+    .interest-body{padding:0 20px 20px}
+    .contact-strip{padding:40px 20px}
+    .contact-strip .inner{flex-direction:column}
+  }
+</style>
+</head>
+<body>
+
+<div class="lang-bar">
+  <a class="lang-link" href="about.html">EN</a>
+  <a class="lang-link" href="about-vi.html">VI</a>
+  <span class="lang-current">中文</span>
+</div>
+
+<nav>
+  <a href="index.html" class="nav-logo">Wired & Wondering<span></span></a>
+  <ul class="nav-links">
+    <li><a href="zh.html">首页</a></li>
+    <li><a href="about-zh.html" class="active">关于我</a></li>
+    <li><a href="zh.html#research">研究</a></li>
+    <li><a href="zh.html#projects">项目</a></li>
+    <li><a href="zh.html#contact">联系</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="about-hero">
+  <div class="about-photo-wrap">
+    <div class="about-photo">
+      <!-- Replace with: <img src="photo.jpg" alt="Tram-Anh"> -->
+      <div class="photo-placeholder">
+        <span class="icon">📷</span>
+        Your photo here
+      </div>
+    </div>
+    <div class="deco-dot deco-dot-1"></div>
+    <div class="deco-dot deco-dot-2"></div>
+  </div>
+  <div class="about-intro-col">
+    <div class="about-tag">关于我</div>
+    <h1 class="about-name">黄馨宁</h1>
+    <p class="about-name-sub">Tram-Anh Ngoc Huynh · 应用心理学硕士在读</p>
+    <div class="about-bio">
+      <!-- ✏️ EDIT: Your personal bio here -->
+      <p>I'm a Vietnamese researcher currently pursuing a Master's degree in <strong>Applied Psychology (Clinical & Counseling)</strong> at Southwest University, China. Before psychology, I studied <strong>Electrical-Electronic Engineering</strong> — an unusual path that shaped how I think: systematically, analytically, and with genuine curiosity about how systems (including people) work.</p>
+      <p>My primary research focus is <strong>Cognitive Behavioral Therapy (CBT)</strong> — particularly how it can be adapted for populations who face unique psychological challenges, including first responders and individuals dealing with occupational trauma. I'm equally drawn to <strong>neuroscience</strong> as a lens for understanding the biological foundations of cognition and emotion.</p>
+      <p>I'm principled and organized in how I approach my work, but flexible enough to know when the situation calls for something different. I believe good science should be both rigorous and humane — and that it should eventually reach real people.</p>
+    </div>
+    <div style="display:flex;gap:14px;flex-wrap:wrap">
+      <!-- Replace # with your CV link -->
+      <a href="#" class="btn btn-primary">下载简历</a>
+      <a href="zh.html#contact" class="btn btn-secondary">联系我</a>
+    </div>
+  </div>
+</div>
+
+<hr class="section-divider">
+
+<!-- HOW I DO RESEARCH -->
+<section class="section">
+  <div class="section-label">研究方法</div>
+  <h2 class="section-title">我如何做研究</h2>
+  <div class="how-body">
+    <!-- ✏️ EDIT: Describe your research philosophy and approach -->
+    <p>I approach research as a process of <strong>careful observation followed by structured inquiry</strong>. I tend to notice patterns in everyday human experience — moments of connection, exclusion, stress, or resilience — and ask whether these patterns have underlying mechanisms worth understanding.</p>
+    <p>My engineering background gave me an appreciation for rigorous methodology: clean data, validated instruments, and reproducible findings. My clinical training adds another layer — the awareness that behind every data point is a person, and that psychological research carries a responsibility to be both <strong>methodologically sound and meaningfully applied</strong>.</p>
+    <p>I'm comfortable working across quantitative and qualitative methods, and I have hands-on experience with statistical tools like <strong>Python, R, and SPSS</strong>. I'm particularly interested in projects that bridge theoretical models with real-world interventions.</p>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- RESEARCH INTERESTS -->
+<section class="section">
+  <div class="section-label">研究兴趣</div>
+  <h2 class="section-title">我的研究关注点</h2>
+  <p class="section-intro" style="max-width:640px;color:var(--fg-soft);font-size:15px;line-height:1.8;margin-bottom:0">
+    我的研究兴趣位于临床心理学、认知科学与技术应用的交叉地带。点击展开各主题。
+  </p>
+
+  <div class="interest-list">
+
+    <!-- INTEREST 1 -->
+    <div class="interest-item">
+      <div class="interest-header" onclick="toggleInterest(this)">
+        <div class="interest-header-left">
+          <div class="interest-num">01</div>
+          <div class="interest-title">CBT & Occupational Trauma in High-Risk Professions</div>
+          <div class="interest-tags">
+            <span class="itag">CBT</span>
+            <span class="itag">Trauma</span>
+            <span class="itag">Occupational Psychology</span>
+          </div>
+        </div>
+        <button class="interest-toggle" aria-label="Expand">+</button>
+      </div>
+      <div class="interest-body">
+        <!-- ✏️ EDIT -->
+        <h5>Why this topic interests me</h5>
+        <p>First responders, rescue workers, and others who regularly confront disaster and human suffering occupy a unique psychological space. They are expected to function effectively under extreme stress, yet the emotional cost of this work is rarely addressed in a systematic way. I find this gap both scientifically interesting and ethically important.</p>
+        <h5>What I've learned so far</h5>
+        <p>CBT offers a robust framework for addressing trauma-related cognitions and behaviors, but <strong>standard protocols often assume a general population</strong> and may not account for the specific cognitive patterns — hypervigilance, moral injury, suppression of distress — common among emergency professionals. Adapting CBT for this context requires both clinical sensitivity and an understanding of occupational culture.</p>
+        <h5>Relevant Projects</h5>
+        <div class="related-links">
+          <a href="projects/cbt-responders.html" class="related-link">CBT for First Responders</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- INTEREST 2 -->
+    <div class="interest-item">
+      <div class="interest-header" onclick="toggleInterest(this)">
+        <div class="interest-header-left">
+          <div class="interest-num">02</div>
+          <div class="interest-title">Neuroscience of Emotion & Cognition</div>
+          <div class="interest-tags">
+            <span class="itag">Neuroscience</span>
+            <span class="itag">Cognitive Psychology</span>
+            <span class="itag">Emotion Regulation</span>
+          </div>
+        </div>
+        <button class="interest-toggle" aria-label="Expand">+</button>
+      </div>
+      <div class="interest-body">
+        <!-- ✏️ EDIT -->
+        <h5>Why this topic interests me</h5>
+        <p>I came to psychology from engineering, and neuroscience feels like the place where those two worlds converge. Understanding how the brain encodes memory, regulates emotion, and shapes perception gives clinical interventions a biological grounding — and opens doors to new forms of measurement and treatment.</p>
+        <h5>What I've learned so far</h5>
+        <p>Research consistently shows that <strong>working memory, attention, and emotional regulation are deeply intertwined</strong>. Disruptions in one system reverberate across others. This has direct implications for how we design therapeutic interventions and educational environments.</p>
+        <h5>Relevant Projects</h5>
+        <div class="related-links">
+          <a href="projects/vocabulary-memory.html" class="related-link">Vocabulary Memory & Working Memory</a>
+          <a href="projects/sleep-elderly.html" class="related-link">Sleep Disorders & Cognitive Decline</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- INTEREST 3 -->
+    <div class="interest-item">
+      <div class="interest-header" onclick="toggleInterest(this)">
+        <div class="interest-header-left">
+          <div class="interest-num">03</div>
+          <div class="interest-title">Technology × Mental Health</div>
+          <div class="interest-tags">
+            <span class="itag">Digital Mental Health</span>
+            <span class="itag">Game-based Therapy</span>
+            <span class="itag">Applied Psychology</span>
+          </div>
+        </div>
+        <button class="interest-toggle" aria-label="Expand">+</button>
+      </div>
+      <div class="interest-body">
+        <!-- ✏️ EDIT -->
+        <h5>Why this topic interests me</h5>
+        <p>My background in both engineering and psychology makes the question of how technology can serve mental health feel personal. I think there's enormous untapped potential in well-designed digital tools — not as replacements for therapy, but as <strong>scalable, accessible complements</strong> to traditional care.</p>
+        <h5>What I've learned so far</h5>
+        <p>Game-based interventions, when grounded in solid psychological theory, can increase engagement and reduce stigma around mental health. The challenge is ensuring they are evidence-based and not just "fun" — the design must serve the therapeutic logic, not undermine it.</p>
+        <h5>Relevant Projects</h5>
+        <div class="related-links">
+          <a href="projects/with-you.html" class="related-link">"With You" Relationship App</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- INTEREST 4 -->
+    <div class="interest-item">
+      <div class="interest-header" onclick="toggleInterest(this)">
+        <div class="interest-header-left">
+          <div class="interest-num">04</div>
+          <div class="interest-title">Loneliness, Belonging & Cross-cultural Psychology</div>
+          <div class="interest-tags">
+            <span class="itag">Social Psychology</span>
+            <span class="itag">Cross-cultural</span>
+            <span class="itag">International Students</span>
+          </div>
+        </div>
+        <button class="interest-toggle" aria-label="Expand">+</button>
+      </div>
+      <div class="interest-body">
+        <!-- ✏️ EDIT -->
+        <h5>Why this topic interests me</h5>
+        <p>As a Vietnamese student living and studying in China, I've experienced firsthand the psychological complexity of being far from home — navigating a new culture, building peer relationships from scratch, and managing the particular loneliness of being between worlds. This personal experience motivates a genuine scholarly interest in how separation and belonging affect wellbeing.</p>
+        <h5>What I've learned so far</h5>
+        <p>Peer relationship quality significantly moderates the link between emotional loneliness and separation anxiety among international students. <strong>Social connection is not just a comfort — it is a buffer</strong> with measurable clinical significance.</p>
+        <h5>Relevant Projects</h5>
+        <div class="related-links">
+          <a href="projects/loneliness-anxiety.html" class="related-link">Loneliness & Separation Anxiety</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT STRIP -->
+<div class="contact-strip">
+  <div class="inner">
+    <div>
+      <h3>欢迎联系我。</h3>
+      <p>无论您是研究者、临床工作者、教授，还是只是有些好奇——欢迎联系。</p>
+    </div>
+    <div class="contact-links">
+      <a href="#" class="contact-link" id="email-link">
+        <div class="icon-box">✉</div>
+        <span id="email-display">—</span>
+      </a>
+      <a href="#" class="contact-link">
+        <div class="icon-box">💬</div>
+        WeChat: xinningvn
+      </a>
+    </div>
+  </div>
+</div>
+
+<footer>© 2025 黄馨宁 · <a href="zh.html" style="color:#bbb">首页</a></footer>
+
+<script data-cfasync="false">
+  function toggleInterest(header) {
+    var body = header.nextElementSibling;
+    var btn = header.querySelector('.interest-toggle');
+    var isOpen = body.classList.contains('open');
+    body.classList.toggle('open', !isOpen);
+    btn.textContent = isOpen ? '+' : '−';
+  }
+  document.addEventListener('DOMContentLoaded', function() {
+    var e = 'huangyuzanying' + '@' + 'outlook.com';
+    var l = document.getElementById('email-link');
+    var d = document.getElementById('email-display');
+    if(l) l.href = 'mailto:' + e;
+    if(d) d.textContent = e;
+  });
+</script>
+</body>
+</html>
