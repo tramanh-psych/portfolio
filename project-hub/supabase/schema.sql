@@ -20,6 +20,11 @@ create table if not exists public.profiles (
   created_at  timestamptz not null default now()
 );
 
+-- Emails that become admin automatically on sign-up (not readable through the API).
+create table if not exists public.admin_emails (
+  email text primary key
+);
+
 create table if not exists public.projects (
   id              uuid primary key default gen_random_uuid(),
   code            text not null unique,                 -- short id, e.g. HCB2027
@@ -232,8 +237,9 @@ $$;
 create or replace function public.handle_new_user() returns trigger
 language plpgsql security definer set search_path = public as $$
 begin
-  insert into profiles (id, email, full_name)
-  values (new.id, lower(new.email), coalesce(new.raw_user_meta_data->>'full_name', split_part(new.email,'@',1)))
+  insert into profiles (id, email, full_name, is_admin)
+  values (new.id, lower(new.email), coalesce(new.raw_user_meta_data->>'full_name', split_part(new.email,'@',1)),
+          exists (select 1 from admin_emails a where a.email = lower(new.email)))
   on conflict (id) do nothing;
 
   update project_members pm set user_id = new.id
@@ -414,6 +420,7 @@ alter table public.resources       enable row level security;
 alter table public.resource_access enable row level security;
 alter table public.credit_roles    enable row level security;
 alter table public.lead_notes      enable row level security;
+alter table public.admin_emails    enable row level security;   -- no policies: API cannot read it
 
 -- profiles
 drop policy if exists "profiles read" on public.profiles;
@@ -523,6 +530,32 @@ grant execute on function public.report_progress(uuid, text, integer, text) to a
 grant execute on function public.set_member_email(uuid, text) to authenticated;
 
 -- ---------------------------------------------------------------------
--- 6. Make yourself admin: after you sign up once in the app, run
+-- 6. Make yourself admin, either before signing up:
+--    insert into public.admin_emails values ('you@example.com');
+--    or after signing up once in the app:
 --    update public.profiles set is_admin = true where email = 'you@example.com';
 -- ---------------------------------------------------------------------
+
+-- ---------------------------------------------------------------------
+-- 7. Hardening (Supabase security advisor)
+-- ---------------------------------------------------------------------
+alter function public.protect_submission() set search_path = public;
+alter function public.protect_profile() set search_path = public;
+alter function public.task_before_update() set search_path = public;
+
+-- Nobody signed-out may call any of these.
+revoke execute on function public.is_admin(), public.is_lead(uuid), public.is_member(uuid), public.my_member_id(uuid),
+  public.can_see_task(uuid), public.can_see_resource(uuid), public.resource_project(uuid),
+  public.report_progress(uuid, text, integer, text), public.set_member_email(uuid, text),
+  public.handle_new_user(), public.link_member_email(), public.task_after_update(),
+  public.protect_submission(), public.protect_profile(), public.task_before_update()
+  from public, anon;
+-- Trigger functions are never called directly.
+revoke execute on function public.handle_new_user(), public.link_member_email(), public.task_after_update(),
+  public.protect_submission(), public.protect_profile(), public.task_before_update()
+  from authenticated;
+-- Signed-in users need the RLS helpers (they only answer about the caller) and the two RPCs.
+grant execute on function public.is_admin(), public.is_lead(uuid), public.is_member(uuid), public.my_member_id(uuid),
+  public.can_see_task(uuid), public.can_see_resource(uuid), public.resource_project(uuid),
+  public.report_progress(uuid, text, integer, text), public.set_member_email(uuid, text)
+  to authenticated;

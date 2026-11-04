@@ -1,8 +1,7 @@
-// Fill these two values from Supabase -> Project Settings -> API (or "Connect").
-// The anon / publishable key is meant to be public; data is protected by the
-// row-level security rules in supabase/schema.sql.
-// Leave them empty to run the in-browser demo with sample data.
+// Supabase connection. The publishable key is meant to be public; data is
+// protected by the row-level security rules in supabase/schema.sql.
+// Empty values = in-browser demo with sample data (or add ?demo to the URL).
 window.HUB_CONFIG = {
-  SUPABASE_URL: '',        // e.g. 'https://abcdxyz.supabase.co'
-  SUPABASE_ANON_KEY: '',   // e.g. 'eyJhbGci...' or 'sb_publishable_...'
+  SUPABASE_URL: 'https://jqoskbqlofvgrtzkrimx.supabase.co',
+  SUPABASE_ANON_KEY: 'sb_publishable_2E6eqHivayRzV_voLZL7Zw_OUhFsU6A',
 };

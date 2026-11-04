@@ -80,6 +80,7 @@ function renderAuth(mode) {
         ${mode !== 'login' ? `<a href="#" data-mode="login">${esc(t('haveAccount'))}</a>` : `<a href="#" data-mode="signup">${esc(t('noAccount'))}</a>`}
         ${mode === 'login' ? `<a href="#" data-mode="reset">${esc(t('forgot'))}</a>` : ''}
       </div>
+      <div class="auth-links"><a href="guide.html?lang=${getLang() === 'zh' ? 'zh' : 'vi'}" target="_blank" rel="noopener">❓ ${esc(t('guide'))}</a></div>
     </form></div>`;
   bindLang(app, () => renderAuth(mode));
   app.querySelectorAll('[data-mode]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); renderAuth(a.dataset.mode); }));
@@ -130,6 +131,7 @@ function shell(content, active) {
       </nav>
       <div class="side-foot">
         ${langPicker('small')}
+        <a href="guide.html?lang=${getLang() === 'zh' ? 'zh' : 'vi'}" target="_blank" rel="noopener">❓ ${esc(t('guide'))}</a>
         <a href="#/profile" class="${active === 'profile' ? 'on' : ''}">👤 ${esc(state.profile?.full_name || state.profile?.email || '')}</a>
         ${api.mode === 'live' ? `<button class="btn small ghost" id="logout">${esc(t('logout'))}</button>` : ''}
       </div>

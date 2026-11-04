@@ -69,7 +69,7 @@ const STR = {
     byMember: 'Khối lượng theo người', table: 'Bảng', chart: 'Biểu đồ', needsReview: 'Cần bạn duyệt',
     leadOnly: 'Chỉ người phụ trách', countTasks: '{n} việc', links_: 'Link',
     loading: 'Đang tải…', offline: 'Không kết nối được máy chủ. Kiểm tra mạng rồi thử lại.',
-    me: 'tôi', date: 'Ngày', remaining: 'Còn lại', item: 'Tên',
+    me: 'tôi', date: 'Ngày', remaining: 'Còn lại', item: 'Tên', guide: 'Hướng dẫn sử dụng',
   },
   zh: {
     app: '项目管理', login: '登录', signup: '注册', logout: '退出',
@@ -139,7 +139,7 @@ const STR = {
     byMember: '每人工作量', table: '表格', chart: '图表', needsReview: '需要你审核',
     leadOnly: '仅负责人', countTasks: '{n} 项任务', links_: '链接',
     loading: '加载中…', offline: '无法连接服务器，请检查网络后重试。',
-    me: '我', date: '日期', remaining: '剩余', item: '名称',
+    me: '我', date: '日期', remaining: '剩余', item: '名称', guide: '使用说明',
   },
   en: {
     app: 'Project Hub', login: 'Sign in', signup: 'Create account', logout: 'Sign out',
@@ -210,7 +210,7 @@ const STR = {
     byMember: 'Workload by person', table: 'Table', chart: 'Chart', needsReview: 'Needs your review',
     leadOnly: 'Lead only', countTasks: '{n} tasks', links_: 'Links',
     loading: 'Loading…', offline: 'Cannot reach the server. Check the connection and try again.',
-    me: 'me', date: 'Date', remaining: 'Remaining', item: 'Name',
+    me: 'me', date: 'Date', remaining: 'Remaining', item: 'Name', guide: 'User guide',
   },
 };
 
